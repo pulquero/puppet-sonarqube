@@ -133,14 +133,16 @@ class sonarqube (
   file { "/etc/init.d/${service}":
     ensure => link,
     target => $script,
-  } ->
+  }
 
   # Sonar configuration files
-  file { "${installdir}/conf/sonar.properties":
-    content => template('sonarqube/sonar.properties.erb'),
-    require => Exec['untar'],
-    notify  => Service['sonarqube'],
-    mode    => '0600'
+  if ! defined(File["${installdir}/conf/sonar.properties"]) {
+    file { "${installdir}/conf/sonar.properties":
+      content => template('sonarqube/sonar.properties.erb'),
+      require => Exec['untar'],
+      notify  => Service['sonarqube'],
+      mode    => '0600'
+    }
   }
 
   # The plugins directory. Useful to later reference it from the plugin definition

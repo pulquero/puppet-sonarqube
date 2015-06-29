@@ -137,22 +137,22 @@ class sonarqube (
   }
 
   # Sonar configuration files
-	if $config != undef {
-		file { "${installdir}/conf/sonar.properties":
-			source => $config,
-			require => Exec['untar'],
-			notify  => Service['sonarqube'],
-			mode    => '0600'
-		}
-	}
-	else {
-		file { "${installdir}/conf/sonar.properties":
-			content => template('sonarqube/sonar.properties.erb'),
-			require => Exec['untar'],
-			notify  => Service['sonarqube'],
-			mode    => '0600'
-		}
-	}
+  if $config != undef {
+    file { "${installdir}/conf/sonar.properties":
+      source => $config,
+      require => Exec['untar'],
+      notify  => Service['sonarqube'],
+      mode    => '0600'
+    }
+  }
+  else {
+    file { "${installdir}/conf/sonar.properties":
+      content => template('sonarqube/sonar.properties.erb'),
+      require => Exec['untar'],
+      notify  => Service['sonarqube'],
+      mode    => '0600'
+    }
+  }
 
   # The plugins directory. Useful to later reference it from the plugin definition
   file { $plugin_dir:

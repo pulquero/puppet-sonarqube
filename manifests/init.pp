@@ -139,10 +139,10 @@ class sonarqube (
   # Sonar configuration files
   if $config != undef {
     file { "${installdir}/conf/sonar.properties":
-      source => $config,
-      require => Exec['untar'],
-      notify  => Service['sonarqube'],
-      mode    => '0600'
+       source => $config,
+       require => Exec['untar'],
+       notify  => Service['sonarqube'],
+       mode    => '0600'
     }
   }
   else {
